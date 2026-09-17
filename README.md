@@ -80,6 +80,29 @@ module.exports = [
 ]
 ```
 
+### ESM projects
+
+The package is CommonJS, which ESM imports fine. In a project with
+`"type": "module"` — or in an `eslint.config.mjs` — use a default import:
+
+```js
+import setup from '@bitfinexcom/lint-js'
+
+export default setup({ esm: true })
+```
+
+**Subpath imports need the `.js` extension.** ESM does not infer extensions the
+way `require` does, so `@bitfinexcom/lint-js/lib/ignores` fails to resolve:
+
+```js
+import { defaultIgnores } from '@bitfinexcom/lint-js/lib/ignores.js'
+
+export default setup({ esm: true, ignores: [...defaultIgnores, 'generated/'] })
+```
+
+Running `bfx-lint-js` with no config file at all also works: it reads your
+`package.json` and turns on `esm` for you when `"type": "module"` is set.
+
 ## Options
 
 ```js
