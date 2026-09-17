@@ -1,0 +1,37 @@
+{
+  "name": "@bitfinexcom/lint-js",
+  "version": "1.0.0",
+  "description": "ESLint rules applied on bitfinex codebase",
+  "keywords": [
+    "lint"
+  ],
+  "homepage": "https://github.com/bitfinexcom/bfx-lint-js#readme",
+  "bugs": {
+    "url": "https://github.com/bitfinexcom/bfx-lint-js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitfinexcom/bfx-lint-js.git"
+  },
+  "license": "MIT",
+  "author": "vigan-abd",
+  "type": "commonjs",
+  "main": "index.js",
+  "bin": {
+    "bfx-lint-js": "bin/lint.js"
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "bin/",
+    "vendor/",
+    "THIRD-PARTY-NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "lint": "node bin/lint.js .",
+    "lint:fix": "node bin/lint.js . --fix"
+  }
+}
