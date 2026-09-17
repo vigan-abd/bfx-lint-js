@@ -17,11 +17,13 @@
   "author": "vigan-abd",
   "type": "commonjs",
   "main": "index.js",
+  "types": "index.d.ts",
   "bin": {
     "bfx-lint-js": "bin/lint.js"
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "lib/",
     "bin/",
     "vendor/",
