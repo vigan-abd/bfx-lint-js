@@ -33,6 +33,7 @@
     "node": ">=16.0.0"
   },
   "scripts": {
+    "gen:notices": "node scripts/gen-notices.js",
     "lint": "node bin/lint.js .",
     "lint:fix": "node bin/lint.js . --fix"
   }
