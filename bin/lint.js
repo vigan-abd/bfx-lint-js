@@ -90,8 +90,21 @@ const readJson = (file) => {
   }
 }
 
-const hasConfigFile = (cwd) =>
-  CONFIG_FILES.some(name => fs.existsSync(path.join(cwd, name)))
+// ESLint looks for a config file from cwd upwards, but `overrideConfigFile`
+// switches that search off entirely, so the walk has to be repeated here to
+// tell whether the project has one. Node resolves `type` the same way.
+const findUp = (cwd, names) => {
+  let dir = path.resolve(cwd)
+  let parent
+
+  do {
+    if (names.some(name => fs.existsSync(path.join(dir, name)))) return dir
+    parent = dir
+    dir = path.dirname(dir)
+  } while (dir !== parent)
+
+  return null
+}
 
 const main = async () => {
   const { values, positionals } = parseArgs(process.argv.slice(2))
@@ -110,14 +123,15 @@ const main = async () => {
 
   const cwd = process.cwd()
   const patterns = positionals.length ? positionals : ['.']
-  const useOwnConfig = values['no-config'] || !hasConfigFile(cwd)
+  const useOwnConfig = values['no-config'] || !findUp(cwd, CONFIG_FILES)
 
   const options = { cwd, fix: Boolean(values.fix) }
 
   if (useOwnConfig) {
     // A project declaring "type": "module" wants .js parsed as ESM.
-    const esm = Boolean(values.esm) ||
-      readJson(path.join(cwd, 'package.json')).type === 'module'
+    const pkgDir = findUp(cwd, ['package.json'])
+    const esm = Boolean(values.esm) || (pkgDir !== null &&
+      readJson(path.join(pkgDir, 'package.json')).type === 'module')
 
     // `true` tells ESLint not to search for a config file at all.
     options.overrideConfigFile = true
