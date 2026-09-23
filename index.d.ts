@@ -47,7 +47,9 @@ declare namespace setup {
 
   interface SetupOptions {
     /**
-     * Glob patterns to lint.
+     * Glob patterns the rules and globals attach to, not a way to scope the run.
+     * ESLint globs `.js`, `.cjs` and `.mjs` on its own, so files outside these
+     * patterns are still linted, just with no rules.
      *
      * @default ['**\/*.js', '**\/*.cjs', '**\/*.mjs']
      */

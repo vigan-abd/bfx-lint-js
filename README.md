@@ -118,12 +118,30 @@ setup({
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `files` | `['**/*.js', '**/*.cjs', '**/*.mjs']` | Glob patterns to lint. |
+| `files` | `['**/*.js', '**/*.cjs', '**/*.mjs']` | Glob patterns the rules and globals apply to — not a way to scope the run, see below. |
 | `ignores` | see above | Paths to skip. **Replaces** the defaults rather than extending them, so re-list any you still want. `node_modules` is always ignored by ESLint itself. |
 | `globals` | `{}` | Extra globals, merged over the built-in Node set. Use the ESLint form: `{ myGlobal: 'readonly' }`. |
 | `mocha` | `false` | `true` applies Mocha globals to `test/**/*.js`, `**/*.test.js` and `**/*.spec.js`. Pass an array of globs to target different paths. |
 | `esm` | `false` | Sets the module system for `.js` files — see below. |
 | `rules` | `{}` | Rule overrides, merged over the defaults. |
+
+### What `files` selects
+
+`files` picks which files the rules and globals attach to, not which files are
+linted. ESLint globs `.js`, `.cjs` and `.mjs` on its own, so narrowing `files`
+takes nothing out of the run — it leaves those files with no rules, and a file
+with no rules always passes:
+
+```js
+setup({ files: ['src/**/*.js'] })
+
+// src/a.js   linted with the full rule set
+// src/b.cjs  linted with no rules — reports nothing
+// other/d.js linted with no rules — reports nothing
+```
+
+To limit what gets linted, use `ignores`, or pass the paths on the command line:
+`bfx-lint-js src`.
 
 ### Module system
 

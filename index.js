@@ -13,7 +13,9 @@ const { mochaGlobals, nodeGlobals } = require('./lib/globals')
  * layer on anything the options below do not cover.
  *
  * @param {object} [opts] Options.
- * @param {string[]} [opts.files] Glob patterns to lint.
+ * @param {string[]} [opts.files] Glob patterns the rules and globals attach to, not a
+ *   way to scope the run. ESLint globs `.js`, `.cjs` and `.mjs` on its own, so files
+ *   outside these patterns are still linted, just with no rules.
  * @param {string[]} [opts.ignores] Paths to skip. Replaces the defaults rather than
  *   extending them, so re-list any that should be kept. `node_modules` is always
  *   ignored by ESLint itself.
