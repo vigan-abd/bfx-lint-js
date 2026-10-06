@@ -59,7 +59,7 @@ declare namespace setup {
      * Paths to skip. Replaces the defaults rather than extending them, so re-list
      * any that should be kept. `node_modules` is always ignored by ESLint itself.
      *
-     * @default ['dist/', 'build/', 'coverage/', 'vendor/', 'tmp/', '**\/*.min.js', '**\/bundle.js']
+     * @default ['**\/dist/', '**\/build/', '**\/coverage/', '**\/vendor/', '**\/tmp/', '**\/temp/', '**\/.cache/', '**\/.nyc_output/', '**\/*.min.js', '**\/bundle.js']
      */
     ignores?: string[]
 

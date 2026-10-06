@@ -108,7 +108,7 @@ Running `bfx-lint-js` with no config file at all also works: it reads your
 ```js
 setup({
   files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
-  ignores: ['dist/', 'build/', 'coverage/', 'vendor/', 'tmp/', '**/*.min.js', '**/bundle.js'],
+  ignores: ['**/dist/', '**/build/', '**/coverage/', '**/vendor/', '**/tmp/', '**/temp/', '**/.cache/', '**/.nyc_output/', '**/*.min.js', '**/bundle.js'],
   globals: {},
   mocha: false,
   esm: false,
