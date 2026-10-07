@@ -2,7 +2,7 @@
 
 const { defaultIgnores } = require('./lib/ignores')
 const { defaultRules } = require('./lib/rules')
-const { mochaGlobals, nodeGlobals } = require('./lib/globals')
+const { commonjsGlobals, mochaGlobals, nodeGlobals } = require('./lib/globals')
 
 /**
  * Builds the ESLint flat config array for a project.
@@ -45,13 +45,27 @@ const setup = (opts = {}) => {
       languageOptions: {
         ecmaVersion: 'latest',
         sourceType: esm ? 'module' : 'commonjs',
-        globals: { ...nodeGlobals, ...globals }
+        globals: {
+          ...nodeGlobals,
+          ...(esm ? {} : commonjsGlobals),
+          ...globals
+        }
       },
       linterOptions: { reportUnusedDisableDirectives: true },
       rules: { ...defaultRules, ...extraRules }
     },
-    { files: ['**/*.cjs'], languageOptions: { sourceType: 'commonjs' } },
-    { files: ['**/*.mjs'], languageOptions: { sourceType: 'module' } }
+    {
+      files: ['**/*.cjs'],
+      languageOptions: { sourceType: 'commonjs', globals: commonjsGlobals }
+    },
+    {
+      files: ['**/*.mjs'],
+      languageOptions: {
+        sourceType: 'module',
+        // The main block's `files` also matches .mjs, so switch these back off.
+        globals: { __dirname: 'off', __filename: 'off' }
+      }
+    }
   ]
 
   if (mocha) {
